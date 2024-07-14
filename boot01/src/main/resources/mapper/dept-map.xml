@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yedam.app.emp.mapper.DeptMapper">
+	<!-- 전체조회 -->
+	<select id="selectDeptAll" resultType="DeptVO">
+		SELECT deptId
+			   , deptName
+			   , mgr
+			   , locId
+		FROM departments
+		ORDER BY deptId
+	</select>
+	
+	<!-- 단건조회  -->
+	<select id="selectDeptInfo" resultType="DeptVO">
+		SELECT deptId
+			   , deptName
+			   , mgr
+			   , locId
+		FROM departments
+		WHERE deptId = #{deptId}
+	</select>
+	
+	<!-- 등록 -->
+	<insert id="insertDeptInfo" parameterType="DeptVO">
+		INSERT INTO departments
+        		(
+            		deptId
+            		, deptName
+            		, mgr
+            		, locId
+        		)
+    		VALUES
+        		(
+        			#{deptId}
+        			, #{deptName}
+        			, #{mgr}
+        			, #{locId}
+        		)
+	</insert>
+	
+	<!-- 수정 -->
+	<update id="updateEmpInfo">
+		UPDATE departments
+		SET deptName = #{dept.empName}
+			, deptId = #{dept.deptId}
+			, mgr = #{dept.mgr}
+			, locId = #{dept.locId}
+		WHERE deptId = #{id}
+	</update>
+	
+	<!-- 삭제 -->
+	<delete id="deleteEmpInfo" parameterType="int">
+		DELETE FROM departments
+		WHERE deptId = #{deptId}
+	</delete>
+</mapper>
