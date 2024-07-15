@@ -33,12 +33,12 @@
          </tr>
       </thead>
          <tr th:each="emp : ${empList}">
-            <td  th:text="${emp.empid}"></td>
-            <td  th:text="${emp.empname}"></td>
-            <td  th:text="${emp.deptid}"></td>
-            <td  th:text="${emp.mgr}"></td>
-            <td  th:text="${#numbers.formatInteger(emp.sal, 3, 'COMMA')+'원'}"></td>
-            <td  th:text="${#calendars.format(emp.hiredate, 'yyyy년MM월dd일')}"></td>
+            <td th:text="${emp.empid}"></td>
+            <td th:text="${emp.empname}"></td>
+            <td th:text="${emp.deptid}"></td>
+            <td th:text="${emp.mgr}"></td>
+            <td th:text="${#numbers.formatInteger(emp.sal, 3, 'COMMA')+'원'}"></td>
+            <td th:text="${#calendars.format(emp.hiredate, 'yyyy년MM월dd일')}"></td>
          </tr>
       <tbody>
       </tbody>

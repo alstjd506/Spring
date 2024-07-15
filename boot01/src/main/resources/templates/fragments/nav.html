@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<body>
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand" href="/">마루쉐</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div id="top_icon" style="margin-left: auto;">
+                <ul style="display: flex; justify-content: flex-end; list-style-type: none;">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${empty logId ? 'Guest' : logId}</a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/join">회원가입</a>
+                            <a class="dropdown-item" href="/myPage?userId=${logId}">마이페이지</a>
+                            <a class="dropdown-item" href="/modifyuser">회원정보수정</a>
+                            <a class="dropdown-item" href="/myPageBoard">내 게시글 보기</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">로그아웃</a>
+                        </div>
+                    </li>
+                    <li class="loginForm" list-style-type="none">
+                        <a href="/login">Login</a>
+                    </li>
+                    <li class="OrderForm" list-style-type="none">
+                        <a href="/order">Order</a>
+                    </li>
+                    <li class="cartForm" list-style-type="none">
+                        <a href="/cart">Cart</a>
+                    </li>
+                    <li class="BoardForm" list-style-type="none">
+                        <a href="/board">Q&A</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+<script src="/js/search.js"></script>
+</body>
+</html>

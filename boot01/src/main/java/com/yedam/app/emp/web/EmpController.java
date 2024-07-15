@@ -31,6 +31,7 @@ public class EmpController {
 	public String empList(Model model) { // Model = Request + Response
 		// 1) 기능 수행
 		List<EmpVO> list = empService.empList();
+		System.out.println(list.size());
 		// 2) 클라이언트에 전달할 데이터 담기
 		model.addAttribute("empList", list);
 		// 3) 데이터를 출력할 페이지 결정
