@@ -47,6 +47,7 @@ public class EmpController {
 		EmpVO findVO = empService.empInfo(empVO);
 		model.addAttribute("empInfo", findVO);
 		return "emp/info";
+		//classpath:/templates/emp/info.html
 	}
 	
 	//등록 - 페이지
@@ -59,7 +60,7 @@ public class EmpController {
 	public String empInsertProcess(EmpVO empVO) {
 		int eid = empService.empInsert(empVO);
 		String url = null;
-		if( eid > 1 ) {
+		if( eid > -1 ) {
 			//정상적으로 등록된 경우
 			url = "redirect:empInfo?empid=" + eid;
 		}else {
@@ -82,24 +83,29 @@ public class EmpController {
 		return "emp/update";
 	}
 	//수정 - 처리(연산, AJAX => QueryString)
-	@PostMapping("empUpdate")
-	@ResponseBody // => AJAX
-	public Map<String, Object> empUpdateAJAXQueryString(EmpVO empVO){
-		return empService.empUpdate(empVO);
-	}
-	
-	//수정 - 처리(연산, AJAX => JSON : @RequestBody )
 //	@PostMapping("empUpdate")
 //	@ResponseBody // => AJAX
-//	public Map<String, Object> empUpdateAJAXJSON(@RequestBody EmpVO empVO){
+//	public Map<String, Object> empUpdateAJAXQueryString(EmpVO empVO){
 //		return empService.empUpdate(empVO);
 //	}
+	
+	//수정 - 처리(연산, AJAX => JSON : @RequestBody )
+	@PostMapping("empUpdate")
+	@ResponseBody // => AJAX
+	public Map<String, Object> empUpdateAJAXJSON(@RequestBody EmpVO empVO){
+		return empService.empUpdate(empVO);
+	}
 	
 	//삭제 - 처리
 	@GetMapping("empDelete")
 	public String empDelete(EmpVO empVO) {
 		empService.empDelete(empVO);
 		return "redirect:empList";
+	}
+	
+	@GetMapping("main")
+	public String showMainPage() {
+		return "emp/main";
 	}
 	
 	
