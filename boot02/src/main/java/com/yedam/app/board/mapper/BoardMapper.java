@@ -9,7 +9,7 @@ public interface BoardMapper {
 	public List<BoardVO> selectBoardAll();
 	
 	//단건조회 : 조건 -no
-	public BoardVO selecfBoardInfo(BoardVO boardVO);
+	public BoardVO selectBoardInfo(BoardVO boardVO);
 	
 	//등록 : 대상 -no, title, content, writer, regdate, image
 	public int insertBoardInfo(BoardVO boardVO);

@@ -26,7 +26,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardVO boardInfo(BoardVO boardVO) {
 		
-		return mapper.selecfBoardInfo(boardVO);
+		return mapper.selectBoardInfo(boardVO);
 	}
 
 	@Override

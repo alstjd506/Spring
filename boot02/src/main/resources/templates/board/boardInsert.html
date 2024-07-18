@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<meta charset="UTF-8">
+<title>게시판 목록</title>
+<style>
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f4f4f4;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	margin: 0;
+}
+
+.container {
+	width: 80%;
+	background-color: white;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	border-radius: 8px;
+	padding: 20px;
+}
+
+h3 {
+	background-color: #4CAF50;
+	color: white;
+	margin: -20px -20px 20px -20px;
+	padding: 20px;
+	text-align: center;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+}
+
+.form-group {
+	margin-bottom: 15px;
+}
+
+label {
+	font-weight: bold;
+}
+
+.content-footer {
+	background-color: #f8f9fa;
+	padding: 10px;
+	border-top: 1px solid #dee2e6;
+	text-align: right;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<h3>게시글 등록</h3>
+		<form name="insertForm" th:action="@{/boardInsert}" method="post" enctype="multipart/form-data">
+			<div class="form-group">
+				<label >제목</label> 
+				<input type="text" class="form-control" name="boardTitle">
+			</div>
+			<div class="form-group">
+				<label>작성자</label> 
+				<input type="text" class="form-control" name="boardWriter">
+			</div>
+			<div class="form-group">
+				<label>내용</label>
+				<textarea class="form-control" id="boardContent" name="boardContent" rows="4"></textarea>
+			</div>
+			<div class="form-group">
+				<label >이미지</label> 
+				<input type="file" class="form-control" name="images">
+			</div>
+			<div class="content-footer">
+				<button type="submit" class="btn btn-primary">등록</button>
+				<button type="button" class="btn btn-secondary" th:onclick="|location.href='@{/boardList}'|">목록으로</button>
+			</div>
+		</form>
+	</div>
+</body>
+<script>
+	$('#insertForm').on('submit', function(e){
+		e.preventDefault();
+			
+		let boardTitle = $('input[name="boardTitle"]')
+		if(boardTitle.val().trim() === ''){
+			alert("제목은 필수 값 입니다.");
+			boardTitle.focus();
+			return;
+		}
+		let boardWriter = $('input[name="boardWriter"]')
+		if(boardWriter.val().trim() === ''){
+			alert("작성자는 필수 값 입니다.");
+			boardWriter.focus();
+			return;
+		}			
+		this.submit();
+	})
+</script>
+</html>
