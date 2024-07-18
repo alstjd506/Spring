@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>게시글 상세조회</h3>
+	<div>
+		<table>
+			<tr>
+				<th>번호</th>
+				<td th:text="${boardInfo.boardNo}"></td>
+				<th>제목</th>
+				<td th:text="${boardInfo.boardTitle}"></td>
+				<th>작성자</th>
+				<td th:text="${boardInfo.boardWriter}"></td>
+				<th>작성일</th>
+				<td th:text="${boardInfo.regdate}"></td>
+			</tr>
+			<tr>
+				<th>내용</th>
+				<td th:text="${boardInfo.boardContent}"></td>
+			</tr>
+			<tr>
+				<button>수정</button>
+				<button th:onclick="|location.href='@{/boardList}'|">목록</button>
+				<button th:onclick="||location.href='@{/boardDelete(boardNo=${boardInfo.boardNo})}'||">삭제</button>
+			</tr>
+		</table>
+
+	</div>
+</body>
+</html>
