@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<h3>게시판 목록</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>제목</th>
+					<th>작성자</th>
+					<th>작성일</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="board : ${boardList}">
+					<tr th:onclick="|location.href='@{/boardInfo(boardNo=${board.boardNo})}'|">
+						<td th:text="${board.boardNo}"></td>
+						<td th:text="${board.boardTitle}"></td>
+						<td th:text="${board.boardWriter}"></td>
+						<td th:text="${#calendars.format(board.regdate, 'yy년MM월dd일')}"></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+</body>
+<script>
+	/* $(tbody > tr).on('click', function(e) {
+		let bno = $(e.currentTarget).children().first().text();
+		let url = context + '/boardInfo?boardNo=' + bno;
+		location.href = url;
+	}) */
+
+</script>
+</html>
