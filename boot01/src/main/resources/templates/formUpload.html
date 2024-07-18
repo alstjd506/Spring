@@ -7,7 +7,8 @@
 <body>
 	<form action="uploadForm" method="post"
 					enctype="multipart/form-data">
-		<input type="file" name="images" multiple>
+		<input type="file" name="images" multiple> 
+		<!-- input의 name 속성은 Controller에서 매개변수명, MultipartFile은 contorller의 multipart/form-data, multiple은 뒤에 배열형식이라는 것 [] ,  -->
 		<button type="submit">저장</button>
 	</form>
 </body>
