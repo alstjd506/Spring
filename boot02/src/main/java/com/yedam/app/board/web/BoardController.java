@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -103,27 +104,26 @@ public class BoardController {
 	}
 	
 	// 수정 - 처리 : URI - boardUpdate / PARAMETER - BoardVO(JSON)
-	//             RETURN - 수정결과 데이터(Map)
+	//             RETURN - 수정결과 데이터(Map) json이라면 @RequestBody
 	@PostMapping("boardUpdate")
 	@ResponseBody
-	public Map<String, Object> boardUpdateProcess(@RequestBody BoardVO boardVO, @RequestPart MultipartFile images){
-				
-		String fileName = images.getOriginalFilename();
-		log.warn(images.getOriginalFilename()); 
-		
-		UUID uuid = UUID.randomUUID();
-		String uniqueFileName = uuid + "_" + fileName;
-		
-		String saveName = uploadPath + File.separator + uniqueFileName;
-		log.debug("saveName: " + saveName);
-		
-		Path savePath = Paths.get(saveName);
-		boardVO.setImage(uniqueFileName);
-		
-		try {
-			images.transferTo(savePath);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public Map<String, Object> boardUpdateProcess(@RequestPart("board") BoardVO boardVO,
+	        									  @RequestPart(value="image")  MultipartFile images){	
+		if (images != null && !images.isEmpty()) {
+			String fileName = images.getOriginalFilename();
+		    UUID uuid = UUID.randomUUID();
+		    String uniqueFileName = uuid + "_" + fileName;
+
+		    String saveName = uploadPath + File.separator + uniqueFileName;
+		    Path savePath = Paths.get(saveName);
+		    try {
+		        images.transferTo(savePath);
+		        boardVO.setImage(uniqueFileName);
+		    } catch (IOException e) {
+		            e.printStackTrace();
+		    }
+		} else {
+		    boardVO.setImage(boardVO.getImage());
 		}
 		return bsvc.updateBoard(boardVO);
 	}

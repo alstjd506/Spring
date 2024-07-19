@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
 <head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
 <meta charset="UTF-8">
-<title>게시판 목록</title>
+<title>게시글 수정</title>
 <style>
 body {
 	font-family: Arial, sans-serif;
 	background-color: #f4f4f4;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
@@ -54,15 +56,15 @@ label {
 <body>
 	<div class="container">
 		<h3>게시글 수정</h3>
-		<form name="updateForm" th:object="${boardInfo}" method="post" enctype="multipart/form-data">
+		<form name="updateForm" th:object="${boardInfo}">
 			<div class="form-group row">
 				<div class="col-md-6">
 					<label >번호</label> 
 					<input type="text" class="form-control" th:field="*{boardNo}" readonly>
 				</div>
 				<div class="col-md-6">
-					<label >수정일자</label> 
-					<input type="text" class="form-control" th:field="*{updatedate}" readonly>
+					<label >작성일자</label> 
+					<input type="date" class="form-control" th:field="*{regdate}" readonly>
 				</div>
 			</div>
 			<div class="form-group">
@@ -95,17 +97,26 @@ label {
 	$('#updateBtn').on('click', updateBoard);
 	function updateBoard(e){
 		if(validationCheck() == false) return;
-		
+			
 		let dataObj = getBoardObj();
+		
+		let form = $('form[name="updateForm"]')[0]
+		console.log(form)
+		let formData = new FormData(form);
+		
+		formData.append("board", new Blob([JSON.stringify(dataObj)], {type: "application/json"}));
 		
 		$.ajax("boardUpdate", {
 			type : 'post',
-			data : dataObj,
+			data : formData,
 			processData : false,
-			contentType : false
+			contentType : false,
+			enctype: 'multipart/form-data'
 		})
-		.done(reulst => {
-			location.href="/boardInfo?=boardNo=" +result.target.boardNo;
+		
+		.done(result => {
+			alert('정상적으로 수정되었습니다.');
+			location.href="/boardInfo?boardNo=" +result.target.boardNo;
 		})
 		.fail(err => console.log(err));
 	}
@@ -131,12 +142,46 @@ label {
 		let formObj = {};
 		
 		$.each(formAry, (idx, input) => {
-			// input = {name  'empid', value : '209'}
-			// { empid : 209, empname : 'Hong', ...}
 			formObj[input.name] = input.value;
 		});
 		return formObj;
 	}
+	//파일 등록안하는 ajax
+/* 	$('#updateBtn').on('click', boardUpdateAjax);
+	
+	function boardUpdateAjax(event){
+		//1) 보낼 데이터 확인
+		let info = getBoardInfo();
+		
+		//2) AJAX
+		$.ajax('boardUpdate',{
+			type:'post',
+			contentType : 'application/json',
+			data : JSON.stringify(info)
+		})
+		.done(data => {
+			if(data.result){
+				alert('정상적으로 수정되었습니다.');
+			}else{
+				alert('수정되지 않았습니다.\n데이터를 확인해주세요.');
+			}
+		})
+		.fail(err => console.log(err));			
+	};
+
+	function getBoardInfo(){
+		let formData= $('form[name="updateForm"]').serializeArray();
+		console.log('1) serializeArray', formData);
+		
+		let objData = {};
+		$.each(formData, (idx, input) => {
+			console.log('2) input', idx, input);
+			objData[input.name] = input.value;
+		});
+		
+		console.log('3) objData', objData);
+		return objData;
+	}; */
 	
 </script>
 </html>

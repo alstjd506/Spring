@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{common/layouts/default_layout}"
+	  layout:fragment="content">
 <head>
 <meta charset="UTF-8" />
-<title>Insert title here</title>
+<title>게시글 상세</title>
 <link
 	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css"
 	rel="stylesheet" />
@@ -19,7 +22,6 @@
 body {
 	font-family: Arial, sans-serif;
 	background-color: #f4f4f4;
-	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100vh;
@@ -85,7 +87,7 @@ h3 {
 							<strong>작성일:</strong>
 						</div>
 						<div class="col-md-10"
-							th:text="${#calendars.format(boardInfo.regdate, 'yy년MM월dd일')}"></div>
+							th:text="${#dates.format(boardInfo.regdate, 'yyyy/MM/dd')}"></div>
 					</div>
 					<div class="row">
 						<div class="col-md-2">
@@ -101,7 +103,8 @@ h3 {
 							<strong>이미지:</strong>
 						</div>
 						<div class="col-md-10">
-							<img th:src="@{/images/{image}(image=${boardInfo.image})}" style="width: 50%;">
+							<img th:src="@{/images/{fileName}(fileName=${boardInfo.image})}" style="width: 50%;">
+							<!-- <img th:src="|${#httpServletRequest.getContextPath()}/images/${boardInfo.image}| -->
 						</div>
 					</div>
 				</div>
