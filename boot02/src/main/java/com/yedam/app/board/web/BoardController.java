@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.yedam.app.board.service.BoardService;
 import com.yedam.app.board.service.BoardVO;
+import com.yedam.app.upload.service.UploadService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,18 +31,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class BoardController {
-	@Value("${file.upload.path}")
-	private String uploadPath;
-	
 	//private BoardService bsvc;
 	
 	//@Autowired
 	//public BoardController(BoardService bsvc) {
 	//	this.bsvc = bsvc;
 	//}
+	@Value("${file.upload.path}")
+	private String uploadPath;
 	
 	@Autowired
 	BoardService bsvc;
+	
+	@Autowired
+	UploadService usvc;
 	
 	// 전체조회 : URI - boardList / RETURN - board/boardList
 	@GetMapping("boardList")
@@ -68,25 +71,28 @@ public class BoardController {
 	// 등록 - 처리 : URI - boardInsert / PARAMETER - BoardVO(QueryString)
 	//             RETURN - 단건조회 호출
 	@PostMapping("boardInsert")
-	public String boardInsertProcess(BoardVO boardVO, @RequestPart MultipartFile images) {		
-		String fileName = images.getOriginalFilename();
-		log.warn(images.getOriginalFilename()); 
+	public String boardInsertProcess(BoardVO boardVO, @RequestPart MultipartFile[] images) {		
 		
-		UUID uuid = UUID.randomUUID();
-		String uniqueFileName = uuid + "_" + fileName;
-		
-		String saveName = uploadPath + File.separator + uniqueFileName;
-		log.debug("saveName: " + saveName);
-		
-		Path savePath = Paths.get(saveName);
-		boardVO.setImage(uniqueFileName);
-		
-		try {
-			images.transferTo(savePath);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		for(MultipartFile image : images) {
 			
+			String fileName = image.getOriginalFilename();
+			log.warn(image.getOriginalFilename()); 
+			
+			UUID uuid = UUID.randomUUID();
+			String uniqueFileName = uuid + "_" + fileName;
+			
+			String saveName = uploadPath + File.separator + uniqueFileName;
+			log.debug("saveName: " + saveName);
+			
+			Path savePath = Paths.get(saveName);
+			boardVO.setImage(uniqueFileName);
+			
+			try {
+				image.transferTo(savePath);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		int bno = bsvc.insertBoard(boardVO);
 		return "redirect:boardInfo?boardNo=" + bno;
 	}	

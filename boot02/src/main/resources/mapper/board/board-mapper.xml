@@ -53,5 +53,20 @@
 		)
 	</insert>
 	
+	<update id="updateBoardInfo">
+		UPDATE board
+		SET 
+			board_title = #{boardTitle}
+			, board_content = #{boardContent}
+			, board_writer = #{boardWriter}
+			, updatedate = sysdate
+			, image = #{image}
+		WHERE board_no = #{boardNo}	
+	</update>
+
+	<delete id="deleteBoardInfo" parameterType="int">
+		DELETE FROM board
+		WHERE board_no = #{boardNo}
+	</delete>
 	
 </mapper>
